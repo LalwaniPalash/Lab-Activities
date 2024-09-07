@@ -1,0 +1,81 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+class SinglyLinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, value):
+        new_node = Node(value)
+        if self.head is None:
+            self.head = new_node
+        else:
+            current = self.head
+            while current.next:
+                current = current.next
+            current.next = new_node
+
+    def delete_at_position(self, position):
+        if position < 0:
+            print("Position must be a non-negative integer.")
+            return
+        
+        if self.head is None:
+            print("The list is empty. No node to delete.")
+            return
+        
+        if position == 0:
+            self.head = self.head.next
+            return
+        
+        current = self.head
+        current_position = 0
+        
+        while current and current.next and current_position < position - 1:
+            current = current.next
+            current_position += 1
+        
+        if current is None or current.next is None:
+            print("Position out of bounds.")
+            return
+        
+        current.next = current.next.next
+
+    def display(self):
+        current = self.head
+        while current:
+            print(current.value, end=" -> ")
+            current = current.next
+        print("None")
+
+def main():
+    linked_list = SinglyLinkedList()
+    
+    print("Enter integer values to add to the linked list (type 'done' to finish):")
+    
+    while True:
+        user_input = input("Enter a value: ")
+        if user_input.lower() == 'done':
+            break
+        try:
+            value = int(user_input)
+            linked_list.append(value)
+        except ValueError:
+            print("Invalid input. Please enter an integer value.")
+    
+    print("The linked list before deletion:")
+    linked_list.display()
+    
+    try:
+        position = int(input("Enter the position to delete at: "))
+        linked_list.delete_at_position(position)
+    except ValueError:
+        print("Invalid input. Please enter an integer value.")
+    
+    print("The linked list after deletion:")
+    linked_list.display()
+
+if __name__ == "__main__":
+    main()
